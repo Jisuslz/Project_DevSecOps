@@ -25,11 +25,7 @@ Este pipeline automatiza el proceso de construcción, pruebas, despliegue y moni
    - Un repositorio de configuración (`Config Repo`) almacena los manifiestos de Kubernetes.
    - Argo CD sincroniza los entornos (QA, Staging, Producción) con los cambios realizados en este repositorio.
 
-4. **Despliegue Canary (Argo Rollouts)**:
-   - Implementación de una nueva versión de la aplicación usando un despliegue Canary.
-   - Monitorización del tráfico de usuarios y promoción de la nueva versión si es estable.
-
-5. **Infraestructura como Código (IaC)**:
+4. **Infraestructura como Código (IaC)**:
    - Terraform gestiona la provisión de la infraestructura en Huawei Cloud.
    - La infraestructura y la configuración de la aplicación se gestionan mediante un enfoque GitOps.
 
