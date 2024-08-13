@@ -81,7 +81,7 @@ Para más detalles sobre la configuración y uso, consulta la [documentación of
 - **Kubernetes Cluster**: Plataforma de orquestación de contenedores utilizada para gestionar los servicios en el clúster.
 - **Docker**: Tecnología para la construcción y distribución de contenedores de aplicaciones.
 - **Load Balancer**: Componente que distribuye el tráfico entre las diferentes instancias de la aplicación durante el despliegue.
-- Opcional Terraform
+- Opcional **Terraform**
   
 ## Contribuciones
 
