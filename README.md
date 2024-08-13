@@ -46,7 +46,7 @@ Este pipeline automatiza el proceso de construcción, pruebas, despliegue y moni
 1. Clonar el repositorio:
 
     ```bash
-    git clone https://github.com/tu-usuario/tu-repositorio.git
+    git clone https://github.com/Jisuslz/Project_DevSecOps.git
     ```
 
 2. Configurar las variables de entorno necesarias para Terraform y Huawei Cloud.
@@ -69,7 +69,7 @@ Este proyecto está bajo la licencia [MIT](LICENSE).
 
 ---
 
-Para más detalles sobre la configuración y uso, consulta la [documentación oficial](git clone https://github.com/Jisuslz/Project_DevSecOps.git).
+Para más detalles sobre la configuración y uso, consulta la [documentación oficial](https://argoproj.github.io/argo-cd/).
 
 
 
