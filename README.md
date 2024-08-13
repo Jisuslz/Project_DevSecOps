@@ -69,18 +69,20 @@ Este proyecto está bajo la licencia [MIT](LICENSE).
 
 ---
 
-Para más detalles sobre la configuración y uso, consulta la [documentación oficial](https://argoproj.github.io/argo-cd/).
+Para más detalles sobre la configuración y uso, consulta la [documentación oficial](git clone https://github.com/Jisuslz/Project_DevSecOps.git).
 
 
 
 ## Herramientas Utilizadas
 
 - **GitOps**: Enfoque para la entrega continua que utiliza un repositorio Git como fuente única de verdad.
-- **Argo Rollouts**: Herramienta para gestionar despliegues progresivos y canary en Kubernetes.
-- **Kubernetes**: Plataforma de orquestación de contenedores utilizada para gestionar los servicios en el clúster.
+- **Github Actions**
+- **Huawei cloud**
+- **Kubernetes Cluster**: Plataforma de orquestación de contenedores utilizada para gestionar los servicios en el clúster.
 - **Docker**: Tecnología para la construcción y distribución de contenedores de aplicaciones.
 - **Load Balancer**: Componente que distribuye el tráfico entre las diferentes instancias de la aplicación durante el despliegue.
-
+- Opcional Terraform
+  
 ## Contribuciones
 
 Se sigue un flujo de trabajo basado en Git para todas las contribuciones. Los cambios deben ser propuestos mediante Pull Requests, los cuales deben pasar por todos los controles automáticos antes de ser fusionados en la rama principal.
