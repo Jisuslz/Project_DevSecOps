@@ -1,0 +1,65 @@
+<?php
+session_start();
+
+// Redirigir al usuario a la página de inicio de sesión si no está autenticado
+if (!isset($_SESSION['usuario'])) {
+    header("Location: acceso.php");
+    exit;
+}
+
+// Si se ha enviado el formulario de salida, destruir la sesión y redirigir al usuario a la página de acceso
+if (isset($_POST['logout'])) {
+    session_unset();
+    session_destroy();
+    header("Location: acceso.php");
+    exit;
+}
+
+$usuario = htmlspecialchars($_SESSION['usuario']); // Sanitizar el nombre de usuario
+
+// Conectar con la base de datos
+include "config.php";
+
+try {
+    $conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpassword);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Consulta para obtener el nombre y el documento del usuario
+    $consulta = "SELECT nombre, documento FROM usuario WHERE usuario = :usuario";
+    $statement = $conn->prepare($consulta);
+    $statement->bindParam(':usuario', $usuario);
+    $statement->execute();
+
+    $row = $statement->fetch(PDO::FETCH_ASSOC);
+    $nombre = $row['nombre'] ?? 'No especificado';
+    $documento = $row['documento'] ?? 'No especificado';
+
+    // Consulta para obtener los mensajes de contacto
+    $consultaMensajes = "SELECT * FROM mensajes_contacto";
+    $statementMensajes = $conn->prepare($consultaMensajes);
+    $statementMensajes->execute();
+    $mensajes = $statementMensajes->fetchAll(PDO::FETCH_ASSOC);
+
+} catch(PDOException $e) {
+    echo "Error de conexión: " . $e->getMessage();
+}
+
+// Cerrar la conexión con la base de datos
+$conn = null;
+
+// Establecer la directiva HttpOnly y SameSite para la cookie de sesión
+$cookieParams = session_get_cookie_params();
+session_set_cookie_params([
+    'lifetime' => $cookieParams['lifetime'],
+    'path' => $cookieParams['path'],
+    'domain' => $cookieParams['domain'],
+    'secure' => true, // Usar solo con HTTPS
+    'httponly' => true,
+    'samesite' => 'Strict' // Alternativamente, 'Lax' o 'None' según tus necesidades
+]);
+
+// Regenerar el ID de sesión para prevenir ataques de session fixation
+session_regenerate_id(true);
+echo "ID de sesión regenerado: " . session_id(); // Mostrar el nuevo ID de sesión
+//esta implementación asume que estás utilizando HTTPS en tu sitio web para proteger adecuadamente la cookie de sesión.
+?>
