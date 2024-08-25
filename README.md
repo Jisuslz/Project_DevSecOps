@@ -78,6 +78,7 @@ Para más detalles sobre la configuración y uso, consulta la [documentación of
 - **Docker**: Tecnología para la construcción y distribución de contenedores de aplicaciones.
 - **Load Balancer**: Componente que distribuye el tráfico entre las diferentes instancias de la aplicación durante el despliegue.
 - Opcional **Terraform**
+- Arquitectura [Enlace_Diagrama](https://app.eraser.io/workspace/h7S3xinu0Bn6rcJWrJCO?origin=share)
   
 ## Contribuciones
 
