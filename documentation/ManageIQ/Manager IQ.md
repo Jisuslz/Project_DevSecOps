@@ -50,7 +50,8 @@ El dispositivo ManageIQ es una imagen de máquina virtual que se ejecuta en un s
 
 Los menús principales están disponibles en la parte izquierda de la pantalla y los menús secundarios y terciarios se expanden cuando es necesario. Puedes anclar un menú secundario o terciario para navegar fácilmente por sus elementos.
 
-![alt text](/Project_DevSecOps/documentation/ManageIQ/Anexos/Pasted image 20240818190111.png)
+![alt text](/documentation/ManageIQ/Anexos/Pasted image 20240818190111.png)
+
 Anexos/![[Pasted image 20240818190111.png]]
 
 ### 4. Cambiar opciones
