@@ -39,7 +39,7 @@ El dispositivo ManageIQ es una imagen de máquina virtual que se ejecuta en un s
     
     1. **Docker:** host local (https://127.0.0.1:8443)
 
-![[Pasted image 20240818190058.png]]
+![alt text](/documentation/ManageIQ/Anexos/Pasted%20image%2020240818190058.png)
 
 ### 2. Inicie sesión con las credenciales predeterminadas
 
@@ -51,7 +51,8 @@ El dispositivo ManageIQ es una imagen de máquina virtual que se ejecuta en un s
 Los menús principales están disponibles en la parte izquierda de la pantalla y los menús secundarios y terciarios se expanden cuando es necesario. Puedes anclar un menú secundario o terciario para navegar fácilmente por sus elementos.
 
 
-![[Pasted image 20240818190111.png]]
+![alt text](/documentation/ManageIQ/Anexos/Pasted%20image%2020240818190111.png)
+
 
 ### 4. Cambiar opciones
 
@@ -65,7 +66,7 @@ En el siguiente ejemplo, haga clic en la esquina superior derecha: EVM → Confi
 - Seleccione su zona horaria y, si lo desea, puede cambiar la configuración regional predeterminada.
 - El control del servidor define qué funciones ejecuta cada dispositivo en una implementación de varios dispositivos. Por ahora, como solo tenemos un dispositivo, selecciona todas las opciones de C&U y Notificación. No selecciones Sincronización de base de datos, Propietario de repositorios Git, Espejo de RHN o Proxy inteligente a menos que los necesites.
 
-![[Pasted image 20240818190123.png]]
+![alt text](/documentation/ManageIQ/Anexos/Pasted%20image%2020240818190123.png)
 
 #### 2. Seleccione Preferencias visuales y Vistas predeterminadas
 
@@ -73,12 +74,12 @@ En el siguiente ejemplo, haga clic en la parte superior derecha: EVM → Mi conf
 
 - Aquí puede seleccionar sus preferencias personales sobre cómo se le mostrará la interfaz de usuario. Cambie los elementos predeterminados por página, así como la página de inicio predeterminada que se muestra al iniciar sesión.
 
-![[Pasted image 20240818190135.png]]
+![alt text](/documentation/ManageIQ/Anexos/Pasted%20image%2020240818190135.png)
 
 #### 3. Configure su servidor de correo electrónico para que ManageIQ pueda enviarle correos electrónicos
 
+![alt text](/documentation/ManageIQ/Anexos/Pasted%20image%2020240818190146.png)
 
-![[Pasted image 20240818190146.png]]
 
 #### 4. Guarde los cambios
 

@@ -128,16 +128,16 @@ argocd login localhost:8080
 #otro equipo 
 https://192.168.1.13:8080
 ````
+![alt text](/documentation/ArgoCD/Anexos/Pasted%20image%2020240608134445.png)
 
-![[Pasted image 20240608134445.png]]
 
 
 Una vez que hemos hecho login satisfactoriamente cambiamos la contraseña generada por una que nos venga mejor, como por ejemplo "argocdpass"
 ````
 argocd account update-password
 ````
+![alt text](/documentation/ArgoCD/Anexos/Pasted%20image%2020240608134906.png)
 
-![[Pasted image 20240608134906.png]]
 
 Ahora que estamos logados con el binario de argocd podemos crear el repositorio de código.
 ````
@@ -146,7 +146,8 @@ argocd repo add https://github.com/Jisuslz/argoCD.git
 
 ahora miramos desde la tty
 
-![[Pasted image 20240608142910.png]]
+![alt text](/documentation/ArgoCD/Anexos/Pasted%20image%2020240608142910.png)
+
 
 Creamos un proyecto de pruebas en el que solo se puedan crear aplicaciones en el namespace "testing" y con determinado repositorio de código
 ````
