@@ -1,6 +1,10 @@
 # Project_DevSecOps
 ---
 
+# Diagrama 
+![alt text](/robustness/RobustnessFull.png)
+
+
 # GitOps/Deployment Pipeline
 
 Este repositorio contiene la configuración y scripts necesarios para implementar un pipeline de CI/CD utilizando GitHub Actions, Huawei Cloud, Argo CD, y Terraform para la gestión de infraestructura como código (IaC).
