@@ -4,6 +4,15 @@
 # Diagrama 
 ![alt text](/robustness/RobustnessFull.png)
 
+Métodos para realizar modelamiento de amenazas durante todo el ciclo de vida del desarrollo de software (SDLC). Una excelente media de defensa contra las superficies de ataques, como lo son a nivel web como aplicativos mobiles etc.
+
+#STRIDE
+
+#PASTA
+
+#Trike
+
+#VAST
 
 # GitOps/Deployment Pipeline
 
