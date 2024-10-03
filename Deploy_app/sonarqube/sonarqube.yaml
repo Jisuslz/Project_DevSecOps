@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarqube
+  namespace: dev  # Especifica el namespace dev aquí
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: sonarqube
+  template:
+    metadata:
+      labels:
+        app: sonarqube
+    spec:
+      containers:
+      - name: sonarqube
+        image: sonarqube:lts-enterprise
+        ports:
+        - containerPort: 9000
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sonarqube-dev
+  namespace: argocd
+spec:
+  project: umanizales
+  source:
+    repoURL: https://github.com/Jisuslz/Project_DevSecOps.git  # Actualiza con la URL de tu repo
+    path: Deploy_app/sonarqube/sonarqube.yaml  # Asegúrate de que el path sea correcto
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev  # El namespace donde quieres desplegar
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
