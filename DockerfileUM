@@ -1,0 +1,15 @@
+# Usar la imagen base de PHP con Apache
+FROM php:8.2-apache
+
+# Copiar el contenido de tu proyecto a la carpeta root del servidor Apache
+COPY . /var/www/html/
+
+# Exponer el puerto 80 para que el servidor web sea accesible
+EXPOSE 80
+
+# Opcional: instala extensiones de PHP adicionales si las necesitas
+# RUN docker-php-ext-install pdo pdo_mysql
+
+# Configuración final
+CMD ["apache2-foreground"]
+

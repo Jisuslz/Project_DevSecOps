@@ -1,6 +1,19 @@
 # Project_DevSecOps
 ---
 
+# Diagrama 
+![alt text](/robustness/RobustnessFull.png)
+
+Métodos para realizar modelamiento de amenazas durante todo el ciclo de vida del desarrollo de software (SDLC). Una excelente media de defensa contra las superficies de ataques, como lo son a nivel web como aplicativos mobiles etc.
+
+#STRIDE
+
+#PASTA
+
+#Trike
+
+#VAST
+
 # GitOps/Deployment Pipeline
 
 Este repositorio contiene la configuración y scripts necesarios para implementar un pipeline de CI/CD utilizando GitHub Actions, Huawei Cloud, Argo CD, y Terraform para la gestión de infraestructura como código (IaC).
@@ -78,6 +91,7 @@ Para más detalles sobre la configuración y uso, consulta la [documentación of
 - **Docker**: Tecnología para la construcción y distribución de contenedores de aplicaciones.
 - **Load Balancer**: Componente que distribuye el tráfico entre las diferentes instancias de la aplicación durante el despliegue.
 - Opcional **Terraform**
+- Arquitectura [Enlace_Diagrama](https://app.eraser.io/workspace/h7S3xinu0Bn6rcJWrJCO?origin=share)
   
 ## Contribuciones
 
