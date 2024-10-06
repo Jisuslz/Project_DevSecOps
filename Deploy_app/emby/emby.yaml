@@ -18,7 +18,7 @@ spec:
       - name: emby
         image: linuxserver/emby:4.8.10
         ports:
-        - containerPort: 9000
+        - containerPort: 8096
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
