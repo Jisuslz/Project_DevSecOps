@@ -6,16 +6,20 @@ metadata:
     app: samba
 spec:
   ports:
-    - protocol: UDP
+    - name: netbios-ns
+      protocol: UDP
       port: 137
       targetPort: 137
-    - protocol: UDP
+    - name: netbios-dgm
+      protocol: UDP
       port: 138
       targetPort: 138
-    - protocol: TCP
+    - name: netbios-ssn
+      protocol: TCP
       port: 139
       targetPort: 139
-    - protocol: TCP
+    - name: microsoft-ds
+      protocol: TCP
       port: 445
       targetPort: 445
   selector:
