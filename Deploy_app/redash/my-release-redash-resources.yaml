@@ -1,0 +1,1217 @@
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: StatefulSet
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: my-release
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2024-10-06T22:04:46Z"
+    generation: 1
+    labels:
+      app: postgresql
+      app.kubernetes.io/managed-by: Helm
+      chart: postgresql-8.10.14
+      heritage: Helm
+      release: my-release
+    name: my-release-postgresql
+    namespace: default
+    resourceVersion: "102105"
+    uid: e80eaa9c-b456-484b-923d-c16ea50b963f
+  spec:
+    persistentVolumeClaimRetentionPolicy:
+      whenDeleted: Retain
+      whenScaled: Retain
+    podManagementPolicy: OrderedReady
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: postgresql
+        release: my-release
+        role: master
+    serviceName: my-release-postgresql-headless
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: postgresql
+          chart: postgresql-8.10.14
+          heritage: Helm
+          release: my-release
+          role: master
+        name: my-release-postgresql
+      spec:
+        containers:
+        - env:
+          - name: BITNAMI_DEBUG
+            value: "false"
+          - name: POSTGRESQL_PORT_NUMBER
+            value: "5432"
+          - name: POSTGRESQL_VOLUME_DIR
+            value: /bitnami/postgresql
+          - name: PGDATA
+            value: /bitnami/postgresql/data
+          - name: POSTGRES_USER
+            value: redash
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: postgresql-password
+                name: my-release-postgresql
+          - name: POSTGRES_DB
+            value: redash
+          - name: POSTGRESQL_ENABLE_LDAP
+            value: "no"
+          image: docker.io/bitnami/postgresql:9.6.17-debian-10-r3
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - exec pg_isready -U "redash" -d "redash" -h 127.0.0.1 -p 5432
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          name: my-release-postgresql
+          ports:
+          - containerPort: 5432
+            name: tcp-postgresql
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - -e
+              - |
+                exec pg_isready -U "redash" -d "redash" -h 127.0.0.1 -p 5432
+                [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
+            failureThreshold: 6
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            runAsUser: 1001
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /dev/shm
+            name: dshm
+          - mountPath: /bitnami/postgresql
+            name: data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 1001
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir:
+            medium: Memory
+            sizeLimit: 1Gi
+          name: dshm
+    updateStrategy:
+      type: RollingUpdate
+    volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        creationTimestamp: null
+        name: data
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+        volumeMode: Filesystem
+      status:
+        phase: Pending
+  status:
+    availableReplicas: 1
+    collisionCount: 0
+    currentReplicas: 1
+    currentRevision: my-release-postgresql-589cd76c75
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updateRevision: my-release-postgresql-589cd76c75
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: StatefulSet
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: my-release
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2024-10-06T22:04:46Z"
+    generation: 1
+    labels:
+      app: redis
+      app.kubernetes.io/managed-by: Helm
+      chart: redis-10.9.0
+      heritage: Helm
+      release: my-release
+    name: my-release-redis-master
+    namespace: default
+    resourceVersion: "102087"
+    uid: 4989bc8c-0a53-4590-af4d-485aca23cc43
+  spec:
+    persistentVolumeClaimRetentionPolicy:
+      whenDeleted: Retain
+      whenScaled: Retain
+    podManagementPolicy: OrderedReady
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: redis
+        release: my-release
+        role: master
+    serviceName: my-release-redis-headless
+    template:
+      metadata:
+        annotations:
+          checksum/configmap: efb2003e0dd5f70a790ea33f8d07e6878b1a74ef59a7eed8b3343fecb632cb4b
+          checksum/health: 861090d09480d2fb40459c50d4858bc29a5295a9024d8ae7e674bb7c7099a655
+          checksum/secret: e62be950c51a0716ebbe8bf6de2837cbf9e0b425db6dd830098ae60f26b45228
+        creationTimestamp: null
+        labels:
+          app: redis
+          chart: redis-10.9.0
+          release: my-release
+          role: master
+      spec:
+        containers:
+        - command:
+          - /bin/bash
+          - -c
+          - |
+            if [[ -n $REDIS_PASSWORD_FILE ]]; then
+              password_aux=`cat ${REDIS_PASSWORD_FILE}`
+              export REDIS_PASSWORD=$password_aux
+            fi
+            if [[ ! -f /opt/bitnami/redis/etc/master.conf ]];then
+              cp /opt/bitnami/redis/mounted-etc/master.conf /opt/bitnami/redis/etc/master.conf
+            fi
+            if [[ ! -f /opt/bitnami/redis/etc/redis.conf ]];then
+              cp /opt/bitnami/redis/mounted-etc/redis.conf /opt/bitnami/redis/etc/redis.conf
+            fi
+            ARGS=("--port" "${REDIS_PORT}")
+            ARGS+=("--requirepass" "${REDIS_PASSWORD}")
+            ARGS+=("--masterauth" "${REDIS_PASSWORD}")
+            ARGS+=("--include" "/opt/bitnami/redis/etc/redis.conf")
+            ARGS+=("--include" "/opt/bitnami/redis/etc/master.conf")
+            /run.sh ${ARGS[@]}
+          env:
+          - name: REDIS_REPLICATION_MODE
+            value: master
+          - name: REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: redis-password
+                name: my-release-redis
+          - name: REDIS_TLS_ENABLED
+            value: "no"
+          - name: REDIS_PORT
+            value: "6379"
+          image: docker.io/bitnami/redis:6.0.8-debian-10-r0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+              - sh
+              - -c
+              - /health/ping_liveness_local.sh 5
+            failureThreshold: 5
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 6
+          name: redis
+          ports:
+          - containerPort: 6379
+            name: redis
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - sh
+              - -c
+              - /health/ping_readiness_local.sh 1
+            failureThreshold: 5
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources: {}
+          securityContext:
+            runAsUser: 1001
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /health
+            name: health
+          - mountPath: /data
+            name: redis-data
+          - mountPath: /opt/bitnami/redis/mounted-etc
+            name: config
+          - mountPath: /opt/bitnami/redis/etc/
+            name: redis-tmp-conf
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          fsGroup: 1001
+        serviceAccount: default
+        serviceAccountName: default
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 493
+            name: my-release-redis-health
+          name: health
+        - configMap:
+            defaultMode: 420
+            name: my-release-redis
+          name: config
+        - emptyDir: {}
+          name: redis-tmp-conf
+    updateStrategy:
+      type: RollingUpdate
+    volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        creationTimestamp: null
+        labels:
+          app: redis
+          component: master
+          heritage: Helm
+          release: my-release
+        name: redis-data
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 8Gi
+        volumeMode: Filesystem
+      status:
+        phase: Pending
+  status:
+    availableReplicas: 1
+    collisionCount: 0
+    currentReplicas: 1
+    currentRevision: my-release-redis-master-7cb4f5f9b6
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updateRevision: my-release-redis-master-7cb4f5f9b6
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: my-release
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2024-10-06T22:04:46Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/component: server
+      app.kubernetes.io/instance: my-release
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: redash
+      app.kubernetes.io/version: 10.0.0.b50633
+      helm.sh/chart: redash-3.0.1
+    name: my-release-redash
+    namespace: default
+    resourceVersion: "102098"
+    uid: 3781fed0-7eb5-4a67-ad68-c1f1429b88a0
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/component: server
+        app.kubernetes.io/instance: my-release
+        app.kubernetes.io/name: redash
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/component: server
+          app.kubernetes.io/instance: my-release
+          app.kubernetes.io/name: redash
+      spec:
+        containers:
+        - args:
+          - -c
+          - . /config/dynamicenv.sh && /app/bin/docker-entrypoint server
+          command:
+          - /bin/sh
+          env:
+          - name: REDASH_DATABASE_USER
+            value: redash
+          - name: REDASH_DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: postgresql-password
+                name: my-release-postgresql
+          - name: REDASH_DATABASE_HOSTNAME
+            value: my-release-postgresql
+          - name: REDASH_DATABASE_PORT
+            value: "5432"
+          - name: REDASH_DATABASE_DB
+            value: redash
+          - name: REDASH_REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: redis-password
+                name: my-release-redis
+          - name: REDASH_REDIS_HOSTNAME
+            value: my-release-redis-master
+          - name: REDASH_REDIS_PORT
+            value: "6379"
+          - name: REDASH_REDIS_DB
+            value: "0"
+          - name: PYTHONUNBUFFERED
+            value: "0"
+          - name: REDASH_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                key: secretKey
+                name: my-release-redash
+          - name: REDASH_COOKIE_SECRET
+            valueFrom:
+              secretKeyRef:
+                key: cookieSecret
+                name: my-release-redash
+          - name: SQLALCHEMY_ENABLE_POOL_PRE_PING
+            value: "true"
+          image: redash/redash:10.0.0.b50363
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 10
+            httpGet:
+              path: /ping
+              port: 5000
+              scheme: HTTP
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: redash-server
+          ports:
+          - containerPort: 5000
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ping
+              port: 5000
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          securityContext: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: config
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: my-release-redash
+        serviceAccountName: my-release-redash
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: my-release-redash
+          name: config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2024-10-06T22:04:57Z"
+      lastUpdateTime: "2024-10-06T22:04:57Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2024-10-06T22:04:46Z"
+      lastUpdateTime: "2024-10-06T22:04:57Z"
+      message: ReplicaSet "my-release-redash-75845b4f44" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: my-release
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2024-10-06T22:04:46Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/component: adhocworker
+      app.kubernetes.io/instance: my-release
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: redash
+      app.kubernetes.io/version: 10.0.0.b50633
+      helm.sh/chart: redash-3.0.1
+    name: my-release-redash-adhocworker
+    namespace: default
+    resourceVersion: "102044"
+    uid: 77c42382-945d-421b-b10e-d61b1f081199
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/component: adhocworker
+        app.kubernetes.io/instance: my-release
+        app.kubernetes.io/name: redash
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/component: adhocworker
+          app.kubernetes.io/instance: my-release
+          app.kubernetes.io/name: redash
+      spec:
+        containers:
+        - args:
+          - -c
+          - . /config/dynamicenv.sh && /app/bin/docker-entrypoint worker
+          command:
+          - /bin/sh
+          env:
+          - name: REDASH_DATABASE_USER
+            value: redash
+          - name: REDASH_DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: postgresql-password
+                name: my-release-postgresql
+          - name: REDASH_DATABASE_HOSTNAME
+            value: my-release-postgresql
+          - name: REDASH_DATABASE_PORT
+            value: "5432"
+          - name: REDASH_DATABASE_DB
+            value: redash
+          - name: REDASH_REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: redis-password
+                name: my-release-redis
+          - name: REDASH_REDIS_HOSTNAME
+            value: my-release-redis-master
+          - name: REDASH_REDIS_PORT
+            value: "6379"
+          - name: REDASH_REDIS_DB
+            value: "0"
+          - name: PYTHONUNBUFFERED
+            value: "0"
+          - name: REDASH_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                key: secretKey
+                name: my-release-redash
+          - name: REDASH_COOKIE_SECRET
+            valueFrom:
+              secretKeyRef:
+                key: cookieSecret
+                name: my-release-redash
+          - name: SQLALCHEMY_ENABLE_POOL_PRE_PING
+            value: "true"
+          - name: QUEUES
+            value: queries
+          - name: WORKERS_COUNT
+            value: "2"
+          image: redash/redash:10.0.0.b50363
+          imagePullPolicy: IfNotPresent
+          name: redash-adhocworker
+          resources: {}
+          securityContext: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: config
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: my-release-redash
+        serviceAccountName: my-release-redash
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: my-release-redash
+          name: config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2024-10-06T22:04:48Z"
+      lastUpdateTime: "2024-10-06T22:04:48Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2024-10-06T22:04:46Z"
+      lastUpdateTime: "2024-10-06T22:04:48Z"
+      message: ReplicaSet "my-release-redash-adhocworker-77d6ff55d8" has successfully
+        progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: my-release
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2024-10-06T22:04:46Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/component: genericworker
+      app.kubernetes.io/instance: my-release
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: redash
+      app.kubernetes.io/version: 10.0.0.b50633
+      helm.sh/chart: redash-3.0.1
+    name: my-release-redash-genericworker
+    namespace: default
+    resourceVersion: "102048"
+    uid: 67d76fca-dae7-429f-bfb7-4d59121bdd54
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/component: genericworker
+        app.kubernetes.io/instance: my-release
+        app.kubernetes.io/name: redash
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/component: genericworker
+          app.kubernetes.io/instance: my-release
+          app.kubernetes.io/name: redash
+      spec:
+        containers:
+        - args:
+          - -c
+          - . /config/dynamicenv.sh && /app/bin/docker-entrypoint worker
+          command:
+          - /bin/sh
+          env:
+          - name: REDASH_DATABASE_USER
+            value: redash
+          - name: REDASH_DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: postgresql-password
+                name: my-release-postgresql
+          - name: REDASH_DATABASE_HOSTNAME
+            value: my-release-postgresql
+          - name: REDASH_DATABASE_PORT
+            value: "5432"
+          - name: REDASH_DATABASE_DB
+            value: redash
+          - name: REDASH_REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: redis-password
+                name: my-release-redis
+          - name: REDASH_REDIS_HOSTNAME
+            value: my-release-redis-master
+          - name: REDASH_REDIS_PORT
+            value: "6379"
+          - name: REDASH_REDIS_DB
+            value: "0"
+          - name: PYTHONUNBUFFERED
+            value: "0"
+          - name: REDASH_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                key: secretKey
+                name: my-release-redash
+          - name: REDASH_COOKIE_SECRET
+            valueFrom:
+              secretKeyRef:
+                key: cookieSecret
+                name: my-release-redash
+          - name: SQLALCHEMY_ENABLE_POOL_PRE_PING
+            value: "true"
+          - name: QUEUES
+            value: periodic,emails,default
+          - name: WORKERS_COUNT
+            value: "1"
+          image: redash/redash:10.0.0.b50363
+          imagePullPolicy: IfNotPresent
+          name: redash-genericworker
+          resources: {}
+          securityContext: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: config
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: my-release-redash
+        serviceAccountName: my-release-redash
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: my-release-redash
+          name: config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2024-10-06T22:04:48Z"
+      lastUpdateTime: "2024-10-06T22:04:48Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2024-10-06T22:04:46Z"
+      lastUpdateTime: "2024-10-06T22:04:48Z"
+      message: ReplicaSet "my-release-redash-genericworker-695bd8b89b" has successfully
+        progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: my-release
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2024-10-06T22:04:46Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/component: scheduledworker
+      app.kubernetes.io/instance: my-release
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: redash
+      app.kubernetes.io/version: 10.0.0.b50633
+      helm.sh/chart: redash-3.0.1
+    name: my-release-redash-scheduledworker
+    namespace: default
+    resourceVersion: "102056"
+    uid: 0b1b4c21-7826-4a74-ad6f-2df5bb4a5ff3
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/component: scheduledworker
+        app.kubernetes.io/instance: my-release
+        app.kubernetes.io/name: redash
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/component: scheduledworker
+          app.kubernetes.io/instance: my-release
+          app.kubernetes.io/name: redash
+      spec:
+        containers:
+        - args:
+          - -c
+          - . /config/dynamicenv.sh && /app/bin/docker-entrypoint worker
+          command:
+          - /bin/sh
+          env:
+          - name: REDASH_DATABASE_USER
+            value: redash
+          - name: REDASH_DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: postgresql-password
+                name: my-release-postgresql
+          - name: REDASH_DATABASE_HOSTNAME
+            value: my-release-postgresql
+          - name: REDASH_DATABASE_PORT
+            value: "5432"
+          - name: REDASH_DATABASE_DB
+            value: redash
+          - name: REDASH_REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: redis-password
+                name: my-release-redis
+          - name: REDASH_REDIS_HOSTNAME
+            value: my-release-redis-master
+          - name: REDASH_REDIS_PORT
+            value: "6379"
+          - name: REDASH_REDIS_DB
+            value: "0"
+          - name: PYTHONUNBUFFERED
+            value: "0"
+          - name: REDASH_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                key: secretKey
+                name: my-release-redash
+          - name: REDASH_COOKIE_SECRET
+            valueFrom:
+              secretKeyRef:
+                key: cookieSecret
+                name: my-release-redash
+          - name: SQLALCHEMY_ENABLE_POOL_PRE_PING
+            value: "true"
+          - name: QUEUES
+            value: scheduled_queries,schemas
+          - name: WORKERS_COUNT
+            value: "1"
+          image: redash/redash:10.0.0.b50363
+          imagePullPolicy: IfNotPresent
+          name: redash-scheduledworker
+          resources: {}
+          securityContext: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: config
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: my-release-redash
+        serviceAccountName: my-release-redash
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: my-release-redash
+          name: config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2024-10-06T22:04:48Z"
+      lastUpdateTime: "2024-10-06T22:04:48Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2024-10-06T22:04:46Z"
+      lastUpdateTime: "2024-10-06T22:04:48Z"
+      message: ReplicaSet "my-release-redash-scheduledworker-64c5dfd569" has successfully
+        progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      meta.helm.sh/release-name: my-release
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2024-10-06T22:04:46Z"
+    generation: 1
+    labels:
+      app.kubernetes.io/component: scheduler
+      app.kubernetes.io/instance: my-release
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: redash
+      app.kubernetes.io/version: 10.0.0.b50633
+      helm.sh/chart: redash-3.0.1
+    name: my-release-redash-scheduler
+    namespace: default
+    resourceVersion: "102050"
+    uid: 14903dba-0cc5-4581-9ead-1fc8259fde25
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app.kubernetes.io/component: scheduler
+        app.kubernetes.io/instance: my-release
+        app.kubernetes.io/name: redash
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          app.kubernetes.io/component: scheduler
+          app.kubernetes.io/instance: my-release
+          app.kubernetes.io/name: redash
+      spec:
+        containers:
+        - args:
+          - -c
+          - . /config/dynamicenv.sh && /app/bin/docker-entrypoint scheduler
+          command:
+          - /bin/sh
+          env:
+          - name: REDASH_DATABASE_USER
+            value: redash
+          - name: REDASH_DATABASE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: postgresql-password
+                name: my-release-postgresql
+          - name: REDASH_DATABASE_HOSTNAME
+            value: my-release-postgresql
+          - name: REDASH_DATABASE_PORT
+            value: "5432"
+          - name: REDASH_DATABASE_DB
+            value: redash
+          - name: REDASH_REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: redis-password
+                name: my-release-redis
+          - name: REDASH_REDIS_HOSTNAME
+            value: my-release-redis-master
+          - name: REDASH_REDIS_PORT
+            value: "6379"
+          - name: REDASH_REDIS_DB
+            value: "0"
+          - name: PYTHONUNBUFFERED
+            value: "0"
+          - name: REDASH_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                key: secretKey
+                name: my-release-redash
+          - name: REDASH_COOKIE_SECRET
+            valueFrom:
+              secretKeyRef:
+                key: cookieSecret
+                name: my-release-redash
+          - name: SQLALCHEMY_ENABLE_POOL_PRE_PING
+            value: "true"
+          image: redash/redash:10.0.0.b50363
+          imagePullPolicy: IfNotPresent
+          name: redash-scheduler
+          resources: {}
+          securityContext: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /config
+            name: config
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: my-release-redash
+        serviceAccountName: my-release-redash
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            name: my-release-redash
+          name: config
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2024-10-06T22:04:48Z"
+      lastUpdateTime: "2024-10-06T22:04:48Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2024-10-06T22:04:46Z"
+      lastUpdateTime: "2024-10-06T22:04:48Z"
+      message: ReplicaSet "my-release-redash-scheduler-5558b997b" has successfully
+        progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2024-10-02T01:50:36Z"
+    labels:
+      component: apiserver
+      provider: kubernetes
+    name: kubernetes
+    namespace: default
+    resourceVersion: "198"
+    uid: 3b6fc5f1-8320-4289-a9bc-066e8a7ab9e3
+  spec:
+    clusterIP: 10.96.0.1
+    clusterIPs:
+    - 10.96.0.1
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 8443
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: my-release
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2024-10-06T22:04:46Z"
+    labels:
+      app: postgresql
+      app.kubernetes.io/managed-by: Helm
+      chart: postgresql-8.10.14
+      heritage: Helm
+      release: my-release
+    name: my-release-postgresql
+    namespace: default
+    resourceVersion: "101899"
+    uid: 26f8c9dc-1cf7-455c-bdcd-4ba4305eb7b2
+  spec:
+    clusterIP: 10.102.141.208
+    clusterIPs:
+    - 10.102.141.208
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: tcp-postgresql
+      port: 5432
+      protocol: TCP
+      targetPort: tcp-postgresql
+    selector:
+      app: postgresql
+      release: my-release
+      role: master
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: my-release
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2024-10-06T22:04:46Z"
+    labels:
+      app: postgresql
+      app.kubernetes.io/managed-by: Helm
+      chart: postgresql-8.10.14
+      heritage: Helm
+      release: my-release
+    name: my-release-postgresql-headless
+    namespace: default
+    resourceVersion: "101897"
+    uid: b73ce05f-c987-4f56-9ffc-d9260136c21d
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: tcp-postgresql
+      port: 5432
+      protocol: TCP
+      targetPort: tcp-postgresql
+    selector:
+      app: postgresql
+      release: my-release
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: my-release
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2024-10-06T22:04:46Z"
+    labels:
+      app.kubernetes.io/instance: my-release
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: redash
+      app.kubernetes.io/version: 10.0.0.b50633
+      helm.sh/chart: redash-3.0.1
+    name: my-release-redash
+    namespace: default
+    resourceVersion: "101907"
+    uid: a047308c-a33e-43c1-90c6-83cd5ba152fc
+  spec:
+    clusterIP: 10.103.117.34
+    clusterIPs:
+    - 10.103.117.34
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 5000
+    selector:
+      app.kubernetes.io/component: server
+      app.kubernetes.io/instance: my-release
+      app.kubernetes.io/name: redash
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: my-release
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2024-10-06T22:04:46Z"
+    labels:
+      app: redis
+      app.kubernetes.io/managed-by: Helm
+      chart: redis-10.9.0
+      heritage: Helm
+      release: my-release
+    name: my-release-redis-headless
+    namespace: default
+    resourceVersion: "101896"
+    uid: 131b62ae-d3b3-4bbc-95d3-8f1b28eb4a92
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: redis
+      port: 6379
+      protocol: TCP
+      targetPort: redis
+    selector:
+      app: redis
+      release: my-release
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: my-release
+      meta.helm.sh/release-namespace: default
+    creationTimestamp: "2024-10-06T22:04:46Z"
+    labels:
+      app: redis
+      app.kubernetes.io/managed-by: Helm
+      chart: redis-10.9.0
+      heritage: Helm
+      release: my-release
+    name: my-release-redis-master
+    namespace: default
+    resourceVersion: "101911"
+    uid: 9f54b5b3-a99f-4adf-9420-495c36be9418
+  spec:
+    clusterIP: 10.98.73.85
+    clusterIPs:
+    - 10.98.73.85
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: redis
+      port: 6379
+      protocol: TCP
+      targetPort: redis
+    selector:
+      app: redis
+      release: my-release
+      role: master
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+kind: List
+metadata:
+  resourceVersion: ""
