@@ -1,35 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sonarqube
+  name: emby
   #namespace: dev  # Especifica el namespace dev aquí
 spec:
   replicas: 1
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: sonarqube
+      app: emby
   template:
     metadata:
       labels:
-        app: sonarqube
+        app: emby
     spec:
       containers:
-      - name: sonarqube
-        image: sonarqube:lts-enterprise
+      - name: emby
+        image: linuxserver/emby:4.8.10
         ports:
         - containerPort: 9000
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: sonarqube-dev
+  name: emby-dev
   namespace: argocd
 spec:
   project: umanizales
   source:
     repoURL: https://github.com/Jisuslz/Project_DevSecOps.git  # Actualiza con la URL de tu repo
-    path: Deploy_app/sonarqube  # Asegúrate de que el path sea correcto
+    path: Deploy_app/emby  # Asegúrate de que el path sea correcto
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
