@@ -1,3 +1,4 @@
+# comando para sacar resource desde k8 kubectl get statefulset,deployment,service -n default -o yaml > my-release-redash-resources.yaml\n
 apiVersion: v1
 items:
 - apiVersion: apps/v1
