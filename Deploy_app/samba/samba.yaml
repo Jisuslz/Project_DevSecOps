@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: samba
+  #namespace: dev  # Especifica el namespace aquí
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3  # Controla el historial de revisiones
+  selector:
+    matchLabels:
+      app: samba
+  template:
+    metadata:
+      labels:
+        app: samba
+    spec:
+      containers:
+      - name: samba
+        image: dperson/samba  # Imagen de Samba
+        ports:
+        - containerPort: 137
+          protocol: UDP
+        - containerPort: 138
+          protocol: UDP
+        - containerPort: 139
+          protocol: TCP
+        - containerPort: 445
+          protocol: TCP
+        env:
+        - name: USERID
+          value: "1000"  # UID del usuario
+        - name: GROUPID
+          value: "1000"  # GID del grupo
+        - name: TZ
+          value: "Etc/UTC"  # Zona horaria
+        volumeMounts:
+        - name: samba-volume
+          mountPath: /home/adminlab/samba  # Ajusta la ruta si es necesario
+        command: ["sh", "-c", "samba.sh -u 'adminlab;1q2w3e4r5t' -s 'adminlab;/home/adminlab/samba;yes;no;no;emm'"]
+      volumes:
+      - name: samba-volume
+        hostPath:
+          path: /home/adminlab/samba  # Ajusta esta ruta si es necesario
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: samba-dev
+  namespace: argocd
+spec:
+  project: umanizales
+  source:
+    repoURL: https://github.com/Jisuslz/Project_DevSecOps.git  # Actualiza con la URL de tu repo
+    path: Deploy_app/samba  # Asegúrate de que el path sea correcto
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    #namespace: dev  # El namespace donde quieres desplegar
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+
+
