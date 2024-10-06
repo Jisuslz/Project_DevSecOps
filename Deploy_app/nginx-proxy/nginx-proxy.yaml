@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-proxy
+  labels:
+    app: nginx-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-proxy
+  template:
+    metadata:
+      labels:
+        app: nginx-proxy
+    spec:
+      containers:
+      - name: nginx-proxy
+        image: jc21/nginx-proxy-manager:latest
+        ports:
+        - containerPort: 80    # Public HTTP Port
+        - containerPort: 443   # Public HTTPS Port
+        - containerPort: 81    # Admin Web Port
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: letsencrypt
+          mountPath: /etc/letsencrypt
+      volumes:
+      - name: data
+        hostPath:
+          path: /nginx-proxy/nginxproxymanager/data
+      - name: letsencrypt
+        hostPath:
+          path: /nginx-proxy/nginxproxymanager/letsencrypt
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  labels:
+    app: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - name: mariadb
+        image: jc21/mariadb-aria:latest
+        volumeMounts:
+        - name: mysql
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql
+        hostPath:
+          path: /mnt/usbnn/nginxproxymanager/mysql
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-proxy-dev
+  namespace: argocd
+spec:
+  project: umanizales
+  source:
+    repoURL: https://github.com/Jisuslz/Project_DevSecOps.git  # Actualiza con la URL de tu repo
+    path: Deploy_app/nginx-proxy  # Asegúrate de que el path sea correcto
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    #namespace: dev  # El namespace donde quieres desplegar
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+# test
