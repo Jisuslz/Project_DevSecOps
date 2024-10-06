@@ -29,7 +29,7 @@ spec:
   project: umanizales
   source:
     repoURL: https://github.com/Jisuslz/Project_DevSecOps.git  # Actualiza con la URL de tu repo
-    path: Deploy_app/sonarqube/sonarqube.yaml  # Asegúrate de que el path sea correcto
+    path: Deploy_app/sonarqube  # Asegúrate de que el path sea correcto
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc
