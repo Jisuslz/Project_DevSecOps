@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: trivy
+  #namespace: dev  # Asegúrate de que el namespace es el correcto
+spec:
+  ports:
+  - port: 9005  # El puerto que expondrá el servicio
+    targetPort: 9005  # El puerto en el contenedor al que se redirigirá el tráfico
+  selector:
+    app: trivy  # Debe coincidir con las etiquetas del Deployment
+  type: ClusterIP  # Puedes cambiar esto a NodePort o LoadBalancer según lo que necesites
