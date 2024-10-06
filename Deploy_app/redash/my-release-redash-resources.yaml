@@ -329,7 +329,7 @@ items:
     generation: 1
     labels:
       app.kubernetes.io/component: server
-      app.kubernetes.io/instance: my-release
+      app.kubernetes.io/instance: redash-app
       app.kubernetes.io/managed-by: Helm
       app.kubernetes.io/name: redash
       app.kubernetes.io/version: 10.0.0.b50633
@@ -345,7 +345,7 @@ items:
     selector:
       matchLabels:
         app.kubernetes.io/component: server
-        app.kubernetes.io/instance: my-release
+        app.kubernetes.io/instance: redash-app
         app.kubernetes.io/name: redash
     strategy:
       rollingUpdate:
@@ -357,7 +357,7 @@ items:
         creationTimestamp: null
         labels:
           app.kubernetes.io/component: server
-          app.kubernetes.io/instance: my-release
+          app.kubernetes.io/instance: redash-app
           app.kubernetes.io/name: redash
       spec:
         containers:
@@ -480,7 +480,7 @@ items:
     generation: 1
     labels:
       app.kubernetes.io/component: adhocworker
-      app.kubernetes.io/instance: my-release
+      app.kubernetes.io/instance: redash-app
       app.kubernetes.io/managed-by: Helm
       app.kubernetes.io/name: redash
       app.kubernetes.io/version: 10.0.0.b50633
@@ -496,7 +496,7 @@ items:
     selector:
       matchLabels:
         app.kubernetes.io/component: adhocworker
-        app.kubernetes.io/instance: my-release
+        app.kubernetes.io/instance: redash-app
         app.kubernetes.io/name: redash
     strategy:
       rollingUpdate:
@@ -508,7 +508,7 @@ items:
         creationTimestamp: null
         labels:
           app.kubernetes.io/component: adhocworker
-          app.kubernetes.io/instance: my-release
+          app.kubernetes.io/instance: redash-app
           app.kubernetes.io/name: redash
       spec:
         containers:
@@ -613,7 +613,7 @@ items:
     generation: 1
     labels:
       app.kubernetes.io/component: genericworker
-      app.kubernetes.io/instance: my-release
+      app.kubernetes.io/instance: redash-app
       app.kubernetes.io/managed-by: Helm
       app.kubernetes.io/name: redash
       app.kubernetes.io/version: 10.0.0.b50633
@@ -629,7 +629,7 @@ items:
     selector:
       matchLabels:
         app.kubernetes.io/component: genericworker
-        app.kubernetes.io/instance: my-release
+        app.kubernetes.io/instance: redash-app
         app.kubernetes.io/name: redash
     strategy:
       rollingUpdate:
@@ -641,7 +641,7 @@ items:
         creationTimestamp: null
         labels:
           app.kubernetes.io/component: genericworker
-          app.kubernetes.io/instance: my-release
+          app.kubernetes.io/instance: redash-app
           app.kubernetes.io/name: redash
       spec:
         containers:
@@ -746,7 +746,7 @@ items:
     generation: 1
     labels:
       app.kubernetes.io/component: scheduledworker
-      app.kubernetes.io/instance: my-release
+      app.kubernetes.io/instance: redash-app
       app.kubernetes.io/managed-by: Helm
       app.kubernetes.io/name: redash
       app.kubernetes.io/version: 10.0.0.b50633
@@ -762,7 +762,7 @@ items:
     selector:
       matchLabels:
         app.kubernetes.io/component: scheduledworker
-        app.kubernetes.io/instance: my-release
+        app.kubernetes.io/instance: redash-app
         app.kubernetes.io/name: redash
     strategy:
       rollingUpdate:
@@ -774,7 +774,7 @@ items:
         creationTimestamp: null
         labels:
           app.kubernetes.io/component: scheduledworker
-          app.kubernetes.io/instance: my-release
+          app.kubernetes.io/instance: redash-app
           app.kubernetes.io/name: redash
       spec:
         containers:
@@ -879,7 +879,7 @@ items:
     generation: 1
     labels:
       app.kubernetes.io/component: scheduler
-      app.kubernetes.io/instance: my-release
+      app.kubernetes.io/instance: redash-app
       app.kubernetes.io/managed-by: Helm
       app.kubernetes.io/name: redash
       app.kubernetes.io/version: 10.0.0.b50633
@@ -895,7 +895,7 @@ items:
     selector:
       matchLabels:
         app.kubernetes.io/component: scheduler
-        app.kubernetes.io/instance: my-release
+        app.kubernetes.io/instance: redash-app
         app.kubernetes.io/name: redash
     strategy:
       rollingUpdate:
@@ -907,7 +907,7 @@ items:
         creationTimestamp: null
         labels:
           app.kubernetes.io/component: scheduler
-          app.kubernetes.io/instance: my-release
+          app.kubernetes.io/instance: redash-app
           app.kubernetes.io/name: redash
       spec:
         containers:
@@ -1108,7 +1108,7 @@ items:
       meta.helm.sh/release-namespace: default
     creationTimestamp: "2024-10-06T22:04:46Z"
     labels:
-      app.kubernetes.io/instance: my-release
+      app.kubernetes.io/instance: redash-app
       app.kubernetes.io/managed-by: Helm
       app.kubernetes.io/name: redash
       app.kubernetes.io/version: 10.0.0.b50633
@@ -1132,7 +1132,7 @@ items:
       targetPort: 5000
     selector:
       app.kubernetes.io/component: server
-      app.kubernetes.io/instance: my-release
+      app.kubernetes.io/instance: redash-app
       app.kubernetes.io/name: redash
     sessionAffinity: None
     type: ClusterIP
