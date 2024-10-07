@@ -1,0 +1,7 @@
+# sonar-project.properties
+sonar.projectKey=DevSecOps
+sonar.projectName=DevSecOps
+sonar.projectVersion=1.0
+sonar.sources=./LaboratorioFinalVuln
+sonar.host.url=http://localhost:9000/
+sonar.login=sqa_67f0e1ca526c4f6e820b274c113aae1a5ffcb043
