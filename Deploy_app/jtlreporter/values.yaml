@@ -12,7 +12,7 @@ imagePullPolicy: IfNotPresent
 service:
   fe:
     type: ClusterIP
-    port: 80
+    port: 2020
     targetPort: 80
   be:
     type: ClusterIP
