@@ -41,6 +41,11 @@ spec:
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
             - containerPort: 80
+          env:
+            - name: BACKEND_HOST
+              value: "{{ include "jtl-reporter.fullname" . }}-be"  # Nombre del servicio del backend
+            - name: BACKEND_PORT
+              value: "5000"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -79,3 +84,4 @@ spec:
                   key: JWT_TOKEN_LOGIN
           ports:
             - containerPort: 5000
+

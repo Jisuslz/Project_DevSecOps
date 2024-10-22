@@ -46,6 +46,10 @@ env:
     DATABASE_URL: "postgres://{{ .Values.db.user }}@db/{{ .Values.db.database }}"
     OPT_OUT_ANALYTICS: true
 
+nginx:
+  upstream:
+    be: "be.dev.svc.cluster.local:5000"  # Ajuste para usar el nombre completo del servicio de 'be' en el namespace 'dev'
+
 ingress:
   enabled: false
   host: ""
