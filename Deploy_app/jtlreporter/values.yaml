@@ -49,9 +49,9 @@ env:
 # Ajustes adicionales para la resolución de nombres dentro del clúster:
 nginx:
   upstream:
-    backend:
-      name: "be"  # Nombre del servicio del backend
-      port: 5000  # Puerto que está exponiendo el backend # Ajuste para usar el nombre completo del servicio de 'be' en el namespace 'dev'
+    host: "jtl-reporter-dev-jtl-reporter-be"  # El nombre completo del servicio
+    port: 5000
+  # Puerto que está exponiendo el backend # Ajuste para usar el nombre completo del servicio de 'be' en el namespace 'dev'
 
 ingress:
   enabled: false
