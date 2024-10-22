@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: jtl-reporter-db
+  namespace: {{ .Release.Namespace }}
+spec:
+  serviceName: jtl-reporter-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jtl-reporter
+      tier: db
+  template:
+    metadata:
+      labels:
+        app: jtl-reporter
+        tier: db
+    spec:
+      containers:
+        - name: db
+          image: {{ .Values.image.db }}
+          ports:
+            - containerPort: {{ .Values.service.db.port }}
+          env:
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: {{ .Values.db.postgresHostAuthMethod }}
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "postgres"]
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: {{ .Values.db.storage }}

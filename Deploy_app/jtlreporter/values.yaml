@@ -1,59 +1,31 @@
 replicaCount: 1
-
 image:
-  fe: novyl/jtl-reporter-fe:v5.0.2
-  be: novyl/jtl-reporter-be:v5.0.2
+  backend: novyl/jtl-reporter-be:v5.0.2
+  frontend: novyl/jtl-reporter-fe:v5.0.2
   db: timescale/timescaledb-ha:latest
-  listener: novyl/jtl-reporter-listener-service:v2.1.2
-  scheduler: novyl/jtl-reporter-scheduler:v0.0.8
-
-imagePullPolicy: IfNotPresent
-
-service:
-  fe:
-    type: ClusterIP
-    port: 2020
-    targetPort: 80
-  be:
-    type: ClusterIP
-    port: 5000
-    targetPort: 5000
-  listener:
-    type: ClusterIP
-    port: 6000
-    targetPort: 6000
-  db:
-    type: ClusterIP
-    port: 5432
 
 db:
-  user: postgres
-  database: jtl_report
-  hostAuthMethod: trust
-
-persistence:
-  enabled: true
-  size: 10Gi
-  storageClass: standard
+  postgresHostAuthMethod: trust
+  storage: 10Gi
 
 env:
-  be:
-    JWT_TOKEN: "27JU4qy73hchTMLoH8w9m"
-    JWT_TOKEN_LOGIN: "GdK6TrCvX7rJRZJVg4ijt"
-  listener:
-    JWT_TOKEN: "GdK6TrCvX7rJRZJVg4ijt"
-  migration:
-    DATABASE_URL: "postgres://{{ .Values.db.user }}@db/{{ .Values.db.database }}"
-    OPT_OUT_ANALYTICS: true
+  backend:
+    JWT_TOKEN: ""
+    JWT_TOKEN_LOGIN: ""
+    DB_HOST: jtl-reporter-db
+  frontend:
+    BACKEND_HOST: jtl-reporter-be
+    BACKEND_PORT: "5000"
 
-# Ajustes adicionales para la resolución de nombres dentro del clúster:
-nginx:
-  upstream:
-    host: "jtl-reporter-dev-jtl-reporter-be"  # El nombre completo del servicio
+service:
+  frontend:
+    type: ClusterIP
+    port: 2020
+  backend:
+    type: ClusterIP
     port: 5000
-  # Puerto que está exponiendo el backend # Ajuste para usar el nombre completo del servicio de 'be' en el namespace 'dev'
+  db:
+    port: 5432
 
 ingress:
   enabled: false
-  host: ""
-

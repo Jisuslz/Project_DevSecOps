@@ -2,17 +2,18 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "jtl-reporter.fullname" . }}-ingress
+  name: jtl-reporter-ingress
+  namespace: {{ .Release.Namespace }}
 spec:
   rules:
-    - host: {{ .Values.ingress.host }}
+    - host: jtl-reporter.example.com
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ include "jtl-reporter.fullname" . }}-fe
+                name: jtl-reporter-be
                 port:
-                  number: {{ .Values.service.fe.port }}
+                  number: {{ .Values.service.backend.port }}
 {{- end }}
