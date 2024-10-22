@@ -4,9 +4,6 @@ metadata:
   name: jtl-reporter-config
   namespace: {{ .Release.Namespace }}
 data:
-  DATABASE_URL: {{ .Values.env.migration.DATABASE_URL }}
-  OPT_OUT_ANALYTICS: {{ .Values.env.migration.OPT_OUT_ANALYTICS | quote }}
-
   nginx.conf: |
     # Bloque http donde deben definirse las directivas upstream y server
     http {
