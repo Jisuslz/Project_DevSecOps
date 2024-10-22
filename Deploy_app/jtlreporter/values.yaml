@@ -29,3 +29,8 @@ service:
 
 ingress:
   enabled: false
+
+nginx:
+  upstream:
+    host: "jtl-reporter-be"
+    port: 5000
