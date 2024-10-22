@@ -1,0 +1,37 @@
+image:
+  fe: novyl/jtl-reporter-fe:v5.0.2
+  be: novyl/jtl-reporter-be:v5.0.2
+  listener: novyl/jtl-reporter-listener-service:v2.1.2
+  scheduler: novyl/jtl-reporter-scheduler:v0.0.8
+  db:
+    repository: timescale/timescaledb-ha
+    tag: latest
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "250m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
+db:
+  persistence:
+    enabled: true
+    size: 10Gi
+  env:
+    POSTGRES_HOST_AUTH_METHOD: trust
+
+secrets:
+  JWT_TOKEN: "27JU4qy73hchTMLoH8w9m"
+  JWT_TOKEN_LOGIN: "GdK6TrCvX7rJRZJVg4ijt"
+
+service:
+  fe:
+    port: 2020
+  be:
+    port: 5000
+  db:
+    port: 5432
+  listener:
+    port: 6000

@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jtl-reporter-migration
+  labels:
+    app: jtl-reporter
+spec:
+  template:
+    metadata:
+      labels:
+        app: jtl-reporter
+        tier: migration
+    spec:
+      containers:
+        - name: migration
+          image: {{ .Values.image.be }}
+          command: ["npm", "run", "migrate", "up"]
+          env:
+            - name: DATABASE_URL
+              value: "postgres://postgres@jtl-reporter-db/jtl_report"
+            - name: OPT_OUT_ANALYTICS
+              value: "true"
+      restartPolicy: OnFailure

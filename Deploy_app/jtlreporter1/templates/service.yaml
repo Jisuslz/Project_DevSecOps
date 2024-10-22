@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jtl-reporter-db
+  labels:
+    app: jtl-reporter
+    tier: db
+spec:
+  ports:
+    - port: {{ .Values.service.db.port }}
+      targetPort: 5432
+  selector:
+    app: jtl-reporter
+    tier: db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jtl-reporter-fe
+  labels:
+    app: jtl-reporter
+    tier: fe
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.service.fe.port }}
+      targetPort: 80
+  selector:
+    app: jtl-reporter
+    tier: fe
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jtl-reporter-be
+  labels:
+    app: jtl-reporter
+    tier: be
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.service.be.port }}
+      targetPort: 5000
+  selector:
+    app: jtl-reporter
+    tier: be

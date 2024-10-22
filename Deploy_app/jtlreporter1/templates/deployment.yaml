@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jtl-reporter-fe
+  labels:
+    app: jtl-reporter
+    tier: fe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jtl-reporter
+      tier: fe
+  template:
+    metadata:
+      labels:
+        app: jtl-reporter
+        tier: fe
+    spec:
+      containers:
+        - name: fe
+          image: {{ .Values.image.fe }}
+          ports:
+            - containerPort: 80
+          env:
+            - name: BACKEND_HOST
+              value: "jtl-reporter-be"
+            - name: BACKEND_PORT
+              value: "5000"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jtl-reporter-be
+  labels:
+    app: jtl-reporter
+    tier: be
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jtl-reporter
+      tier: be
+  template:
+    metadata:
+      labels:
+        app: jtl-reporter
+        tier: be
+    spec:
+      containers:
+        - name: be
+          image: {{ .Values.image.be }}
+          ports:
+            - containerPort: 5000
+          env:
+            - name: DB_HOST
+              value: "jtl-reporter-db"
+            - name: JWT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: jtl-reporter-secrets
+                  key: JWT_TOKEN
+            - name: JWT_TOKEN_LOGIN
+              valueFrom:
+                secretKeyRef:
+                  name: jtl-reporter-secrets
+                  key: JWT_TOKEN_LOGIN
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
