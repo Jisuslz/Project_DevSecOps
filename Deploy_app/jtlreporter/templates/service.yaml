@@ -9,8 +9,6 @@ spec:
   ports:
     - port: {{ .Values.service.fe.port }}
       targetPort: {{ .Values.service.fe.targetPort }}
-      nodePort: {{ .Values.service.fe.nodePort }}
-      protocol: {{ .Values.service.fe.protocol }}
   selector:
     app: {{ include "jtl-reporter.fullname" . }}
     tier: fe
