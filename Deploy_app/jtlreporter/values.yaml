@@ -11,7 +11,7 @@ imagePullPolicy: IfNotPresent
 
 service:
   fe:
-    type: ClusterIP
+    type: nodePort
     port: 2020
     targetPort: 80
     nodePort: 32020
