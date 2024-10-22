@@ -46,9 +46,12 @@ env:
     DATABASE_URL: "postgres://{{ .Values.db.user }}@db/{{ .Values.db.database }}"
     OPT_OUT_ANALYTICS: true
 
+# Ajustes adicionales para la resolución de nombres dentro del clúster:
 nginx:
   upstream:
-    be: "be.dev.svc.cluster.local:5000"  # Ajuste para usar el nombre completo del servicio de 'be' en el namespace 'dev'
+    backend:
+      name: "be"  # Nombre del servicio del backend
+      port: 5000  # Puerto que está exponiendo el backend # Ajuste para usar el nombre completo del servicio de 'be' en el namespace 'dev'
 
 ingress:
   enabled: false
