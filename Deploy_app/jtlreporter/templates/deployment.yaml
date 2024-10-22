@@ -72,5 +72,10 @@ spec:
                 secretKeyRef:
                   name: {{ include "jtl-reporter.fullname" . }}-secrets
                   key: JWT_TOKEN
+            - name: JWT_TOKEN_LOGIN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "jtl-reporter.fullname" . }}-secrets
+                  key: JWT_TOKEN_LOGIN
           ports:
             - containerPort: 5000
