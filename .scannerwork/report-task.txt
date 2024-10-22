@@ -1,0 +1,6 @@
+projectKey=DevSecOps
+serverUrl=http://localhost:9000
+serverVersion=9.9.7.96285
+dashboardUrl=http://localhost:9000/dashboard?id=DevSecOps
+ceTaskId=AZKdcFhDwtbs-kj5M_1Q
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AZKdcFhDwtbs-kj5M_1Q

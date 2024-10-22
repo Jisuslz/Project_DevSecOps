@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "jtl-reporter.fullname" . }}-fe
+  labels:
+    {{- include "jtl-reporter.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.fe.type }}
+  ports:
+    - port: {{ .Values.service.fe.port }}
+      targetPort: {{ .Values.service.fe.targetPort }}
+  selector:
+    app: {{ include "jtl-reporter.fullname" . }}
+    tier: fe
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "jtl-reporter.fullname" . }}-be
+  labels:
+    {{- include "jtl-reporter.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.be.type }}
+  ports:
+    - port: {{ .Values.service.be.port }}
+      targetPort: {{ .Values.service.be.targetPort }}
+  selector:
+    app: {{ include "jtl-reporter.fullname" . }}
+    tier: be

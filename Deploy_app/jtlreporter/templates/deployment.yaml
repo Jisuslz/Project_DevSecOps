@@ -1,0 +1,76 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jtl-reporter-dev
+  namespace: argocd
+spec:
+  project: umanizales
+  source:
+    repoURL: https://github.com/Jisuslz/Project_DevSecOps.git  # Actualiza con la URL de tu repo
+    path: charts/jtl-reporter  # Asegúrate de que el path sea correcto
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev  # El namespace donde quieres desplegar
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "jtl-reporter.fullname" . }}-fe
+  labels:
+    {{- include "jtl-reporter.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "jtl-reporter.fullname" . }}
+      tier: fe
+  template:
+    metadata:
+      labels:
+        app: {{ include "jtl-reporter.fullname" . }}
+        tier: fe
+    spec:
+      containers:
+        - name: fe
+          image: {{ .Values.image.fe }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          ports:
+            - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "jtl-reporter.fullname" . }}-be
+  labels:
+    {{- include "jtl-reporter.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "jtl-reporter.fullname" . }}
+      tier: be
+  template:
+    metadata:
+      labels:
+        app: {{ include "jtl-reporter.fullname" . }}
+        tier: be
+    spec:
+      containers:
+        - name: be
+          image: {{ .Values.image.be }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          env:
+            - name: DB_HOST
+              value: db
+            - name: JWT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "jtl-reporter.fullname" . }}-secrets
+                  key: JWT_TOKEN
+          ports:
+            - containerPort: 5000

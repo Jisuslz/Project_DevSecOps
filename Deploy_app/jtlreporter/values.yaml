@@ -1,0 +1,51 @@
+replicaCount: 1
+
+image:
+  fe: novyl/jtl-reporter-fe:v5.0.2
+  be: novyl/jtl-reporter-be:v5.0.2
+  db: timescale/timescaledb-ha:latest
+  listener: novyl/jtl-reporter-listener-service:v2.1.2
+  scheduler: novyl/jtl-reporter-scheduler:v0.0.8
+
+imagePullPolicy: IfNotPresent
+
+service:
+  fe:
+    type: ClusterIP
+    port: 80
+    targetPort: 80
+  be:
+    type: ClusterIP
+    port: 5000
+    targetPort: 5000
+  listener:
+    type: ClusterIP
+    port: 6000
+    targetPort: 6000
+  db:
+    type: ClusterIP
+    port: 5432
+
+db:
+  user: postgres
+  database: jtl_report
+  hostAuthMethod: trust
+
+persistence:
+  enabled: true
+  size: 10Gi
+  storageClass: standard
+
+env:
+  be:
+    JWT_TOKEN: "27JU4qy73hchTMLoH8w9m"
+  listener:
+    JWT_TOKEN: "GdK6TrCvX7rJRZJVg4ijt"
+  migration:
+    DATABASE_URL: "postgres://{{ .Values.db.user }}@db/{{ .Values.db.database }}"
+    OPT_OUT_ANALYTICS: true
+
+ingress:
+  enabled: false
+  host: ""
+
