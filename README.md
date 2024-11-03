@@ -4,7 +4,13 @@
 # Diagrama 
 ![alt text](/robustness/RobustnessFull.png)
 
-![image](https://github.com/user-attachments/assets/38e9968c-3869-438d-ba1f-2b37794e9919)
+
+# Diagrama de red
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/38e9968c-3869-438d-ba1f-2b37794e9919" alt="Diagrama de red">
+</div>
+
 
 
 Métodos para realizar modelamiento de amenazas durante todo el ciclo de vida del desarrollo de software (SDLC). Una excelente media de defensa contra las superficies de ataques, como lo son a nivel web como aplicativos mobiles etc.
