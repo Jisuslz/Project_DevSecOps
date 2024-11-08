@@ -38,25 +38,14 @@ spec:
                   - "-c"
                   - >
                     sleep 20;
-                    if ! psql -U postgres -d jtl_report -c "select 1 from jtl.users limit 1;" > /dev/null 2>&1; then
+                    db_check=$(psql -U postgres -d jtl_report -c "select * from jtl.users limit 1;");
+                    if [ -z "$db_check" ]; then
                       wget -O /var/lib/postgresql/data/schema.sql https://raw.githubusercontent.com/ludeknovy/jtl-reporter/main/db/schema.sql;
                       chown postgres:postgres /var/lib/postgresql/data/schema.sql;
-                      psql -U postgres -d jtl_report -f /var/lib/postgresql/data/schema.sql;
+                      psql -U postgres -d jtl_report -a -f /var/lib/postgresql/data/schema.sql;
                     else
-                      echo "Database already initialized.";
+                      exit 0;
                     fi
-                  # - "bash"
-                  # - "-c"
-                  # - >
-                  #   sleep 20;
-                  #   db_check=$(psql -U postgres -d jtl_report -c "select * from jtl.users limit 1;");
-                  #   if [ -z "$db_check" ]; then
-                  #     wget -O /var/lib/postgresql/data/schema.sql https://raw.githubusercontent.com/ludeknovy/jtl-reporter/main/db/schema.sql;
-                  #     chown postgres:postgres /var/lib/postgresql/data/schema.sql;
-                  #     psql -U postgres -d jtl_report -a -f /var/lib/postgresql/data/schema.sql;
-                  #   else
-                  #     exit 0;
-                  #   fi
 #Since I am using a StatefulSet here, I am hitting the StorageClass directly. I have a GP2 storageclass(default for EKS + AWS EBS CSI driver), you may have to change this depending on your setup.
   volumeClaimTemplates:
     - metadata:

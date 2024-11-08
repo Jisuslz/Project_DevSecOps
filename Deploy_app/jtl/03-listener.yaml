@@ -21,7 +21,8 @@ spec:
             - containerPort: 6000
           env:
             - name: DB_HOST
-              value: "jtl-reporter-db.jtl-reporter.svc.cluster.local"
+              # value: "jtl-reporter-db.jtl-reporter.svc.cluster.local"
+              value: db
             - name: JWT_TOKEN
               value: "GdK6TrCvX7rJRZJVg4ijt"
 ---
