@@ -21,7 +21,8 @@ spec:
             - containerPort: 5000
           env:
             - name: DB_HOST
-              value: "jtl-reporter-db.jtl-reporter.svc.cluster.local"
+              value: db
+              # value: "jtl-reporter-db.jtl-reporter.svc.cluster.local"
             - name: JWT_TOKEN
               value: "27JU4qy73hchTMLoH8w9m"
             - name: JWT_TOKEN_LOGIN
@@ -33,7 +34,8 @@ spec:
           image: novyl/jtl-reporter-be:v5.0.2
           env:
             - name: DATABASE_URL
-              value: "postgres://postgres@jtl-reporter-db.jtl-reporter.svc.cluster.local/jtl_report"
+              value: postgres://postgres@db/jtl_report
+              # value: "postgres://postgres@jtl-reporter-db.jtl-reporter.svc.cluster.local/jtl_report"
             - name: OPT_OUT_ANALYTICS
               value: "true"
           command: ["npm", "run", "migrate", "up"]
