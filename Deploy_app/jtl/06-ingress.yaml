@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jtl-reporter-ingress
+  namespace: jtl-reporter
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    external-dns.alpha.kubernetes.io/hostname: 'jtl-reporter.domain.com' #Annotation that signals the external dns operator to create a dns record in AWS Route53
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:5102LOREMIPSUM #Pointer to Wildcard cert ARN, stored in AWS ACM
+    alb.ingress.kubernetes.io/ssl-policy: 'ELBSecurityPolicy-TLS13-1-2-2021-06'
+spec:
+  ingressClassName: alb
+  rules:
+    - host: jtl-reporter.domain.com
+
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jtl-reporter-fe
+                port:
+                  number: 80

@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jtl-reporter-be
+  namespace: jtl-reporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jtl-reporter-be
+  template:
+    metadata:
+      labels:
+        app: jtl-reporter-be
+    spec:
+      containers:
+        - name: jtl-reporter-be
+          image: novyl/jtl-reporter-be:v4.8.9
+          ports:
+            - containerPort: 5000
+          env:
+            - name: DB_HOST
+              value: "jtl-reporter-db.jtl-reporter.svc.cluster.local"
+            - name: JWT_TOKEN
+              value: "27JU4qy73hchTMLoH8w9m"
+            - name: JWT_TOKEN_LOGIN
+              value: "GdK6TrCvX7rJRZJVg4ijt"
+#Database migration task is defined here as an init container.
+      initContainers:
+        - name: jtl-reporter-migration
+          image: novyl/jtl-reporter-be:v4.8.9
+          env:
+            - name: DATABASE_URL
+              value: "postgres://postgres@jtl-reporter-db.jtl-reporter.svc.cluster.local/jtl_report"
+            - name: OPT_OUT_ANALYTICS
+              value: "true"
+          command: ["npm", "run", "migrate", "up"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: be
+spec:
+  selector:
+    app: jtl-reporter-be
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000

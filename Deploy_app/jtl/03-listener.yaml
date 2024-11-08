@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jtl-reporter-listener
+  namespace: jtl-reporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jtl-reporter-listener
+  template:
+    metadata:
+      labels:
+        app: jtl-reporter-listener
+    spec:
+      containers:
+        - name: jtl-reporter-listener
+          image: novyl/jtl-reporter-listener-service:v2.1.0
+          ports:
+            - containerPort: 6000
+          env:
+            - name: DB_HOST
+              value: "jtl-reporter-db.jtl-reporter.svc.cluster.local"
+            - name: JWT_TOKEN
+              value: "GdK6TrCvX7rJRZJVg4ijt"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jtl-reporter-listener
+spec:
+  selector:
+    app: jtl-reporter-listener
+  ports:
+    - protocol: TCP
+      port: 6000
+      targetPort: 6000

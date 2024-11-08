@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jtl-reporter-scheduler
+  namespace: jtl-reporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jtl-reporter-scheduler
+  template:
+    metadata:
+      labels:
+        app: jtl-reporter-scheduler
+    spec:
+      containers:
+        - name: jtl-reporter-scheduler
+          image: novyl/jtl-reporter-scheduler:v0.0.4
+          env:
+            - name: DB_HOST
+              value: "jtl-reporter-db.jtl-reporter.svc.cluster.local"

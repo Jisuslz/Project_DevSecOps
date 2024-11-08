@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jtl-reporter-fe
+  namespace: jtl-reporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jtl-reporter-fe
+  template:
+    metadata:
+      labels:
+        app: jtl-reporter-fe
+    spec:
+      containers:
+        - name: jtl-reporter-fe
+          image: novyl/jtl-reporter-fe:v4.8.8
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jtl-reporter-fe
+  namespace: jtl-reporter
+spec:
+  selector:
+    app: jtl-reporter-fe
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

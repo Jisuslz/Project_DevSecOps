@@ -1,0 +1,69 @@
+#Database and service. DB pod has a postStart action that downloads the schema.sql from the official repository and applies it. Action is skipped if db structures already exist.
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: jtl-reporter-db
+  namespace: jtl-reporter
+spec:
+  replicas: 1
+  serviceName: jtl-reporter-db
+  selector:
+    matchLabels:
+      app: jtl-reporter-db
+  template:
+    metadata:
+      labels:
+        app: jtl-reporter-db
+    spec:
+      containers:
+        - name: postgres
+          image: timescale/timescaledb:2.4.1-pg13
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: trust
+            - name: POSTGRES_DB
+              value: jtl_report
+          volumeMounts:
+            - name: jtl-data-volume
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "bash"
+                  - "-c"
+                  - >
+                    sleep 20;
+                    db_check=$(psql -U postgres -d jtl_report -c "select * from jtl.users limit 1;");
+                    if [ -z "$db_check" ]; then
+                      wget -O /var/lib/postgresql/data/schema.sql https://raw.githubusercontent.com/ludeknovy/jtl-reporter/main/db/schema.sql;
+                      chown postgres:postgres /var/lib/postgresql/data/schema.sql;
+                      psql -U postgres -d jtl_report -a -f /var/lib/postgresql/data/schema.sql;
+                    else
+                      exit 0;
+                    fi
+#Since I am using a StatefulSet here, I am hitting the StorageClass directly. I have a GP2 storageclass(default for EKS + AWS EBS CSI driver), you may have to change this depending on your setup.
+  volumeClaimTemplates:
+    - metadata:
+        name: jtl-data-volume
+      spec:
+        storageClassName: gp2
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 2Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jtl-reporter-db
+  namespace: jtl-reporter
+spec:
+  selector:
+    app: jtl-reporter-db
+  ports:
+    - protocol: TCP
+      port: 5432
