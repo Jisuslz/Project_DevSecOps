@@ -51,7 +51,7 @@ spec:
     - metadata:
         name: jtl-data-volume
       spec:
-        storageClassName: gp2
+        storageClassName: standard
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
