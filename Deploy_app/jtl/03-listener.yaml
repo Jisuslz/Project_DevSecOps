@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
         - name: jtl-reporter-listener
-          image: novyl/jtl-reporter-listener-service:v2.1.0
+          # image: novyl/jtl-reporter-listener-service:v2.1.0
+          image: novyl/jtl-reporter-listener-service:v2.1.2
           ports:
             - containerPort: 6000
           env:

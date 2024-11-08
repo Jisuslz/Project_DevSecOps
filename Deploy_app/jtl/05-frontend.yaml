@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
         - name: jtl-reporter-fe
-          image: novyl/jtl-reporter-fe:v4.8.8
+          image: novyl/jtl-reporter-fe:v5.0.2
+          # image: novyl/jtl-reporter-fe:v4.8.8
           ports:
             - containerPort: 80
 ---
