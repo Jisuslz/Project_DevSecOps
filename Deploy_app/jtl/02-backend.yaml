@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
         - name: jtl-reporter-be
-          image: novyl/jtl-reporter-be:v4.8.9
-          #image: novyl/jtl-reporter-be:v5.0.2
+          #image: novyl/jtl-reporter-be:v4.8.9
+          image: novyl/jtl-reporter-be:v5.0.2
           ports:
             - containerPort: 5000
           env:
@@ -30,8 +30,8 @@ spec:
 #Database migration task is defined here as an init container.
       initContainers:
         - name: jtl-reporter-migration
-          image: novyl/jtl-reporter-be:v4.8.9
-          #image: novyl/jtl-reporter-be:v5.0.2
+          #image: novyl/jtl-reporter-be:v4.8.9
+          image: novyl/jtl-reporter-be:v5.0.2
           env:
             - name: DATABASE_URL
               #value: postgres://postgres@db/jtl_report
