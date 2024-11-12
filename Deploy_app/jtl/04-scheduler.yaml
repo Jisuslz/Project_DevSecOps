@@ -15,9 +15,9 @@ spec:
     spec:
       containers:
         - name: jtl-reporter-scheduler
-          # image: novyl/jtl-reporter-scheduler:v0.0.4
-          image: novyl/jtl-reporter-scheduler:v0.0.8
+          image: novyl/jtl-reporter-scheduler:v0.0.4
+          #image: novyl/jtl-reporter-scheduler:v0.0.8
           env:
             - name: DB_HOST
-              value: db
-              # value: "jtl-reporter-db.jtl-reporter.svc.cluster.local"
+              #value: db
+              value: "jtl-reporter-db.jtl-reporter.svc.cluster.local"
