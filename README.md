@@ -998,6 +998,88 @@ Para más detalles sobre la configuración y uso, consulta la [documentación of
 
 
 - Arquitectura [Enlace_Diagrama](https://app.eraser.io/workspace/h7S3xinu0Bn6rcJWrJCO?origin=share)
+
+| **Aspecto**      | **DevSecOps** 🛠️                                  | **Ingeniero en Seguridad de la Información** 🔐  |
+| ---------------- | -------------------------------------------------- | ------------------------------------------------ |
+| **Objetivo**     | Integrar seguridad en el desarrollo y operaciones. | Proteger la información y cumplir regulaciones.  |
+| **Enfoque**      | Automatización y pipelines.                        | Gobernanza, control y gestión de riesgos.        |
+| **Ámbito**       | Dev, Ops, Cloud, IaC, Kubernetes.                  | Organización, compliance, datos y redes.         |
+| **Herramientas** | SonarQube, Trivy, Snyk, Vault, ArgoCD, Terraform.  | SIEM, IDS/IPS, DLP, WAF, IAM, ISO 27001.         |
+| **Metodología**  | "Shift Left" → Seguridad desde el inicio.          | "Defense in Depth" → Protección multicapa.       |
+| **Perfil**       | Muy técnico, ligado a CI/CD y microservicios.      | Mixto: técnico + normativo + gestión de riesgos. |
+
+
+
+tendencias recientes de **LinkedIn, Glassdoor, Indeed y Gartner** 2025.
+
+---
+
+## **1. Demanda laboral global (2025)**
+
+| **Rol**                       | **Nivel de demanda** | **Motivo de la tendencia**                                                                                                                                                |
+| ----------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **DevSecOps** 🛠️             | **Muy alta** 🔥      | La explosión de **Kubernetes, microservicios y CI/CD** hace que las empresas necesiten integrar seguridad **desde el código**. La automatización de seguridad es crítica. |
+| **Ingeniero en Seguridad** 🔐 | **Alta** 📈          | Las regulaciones como **GDPR, ISO 27001, SOC 2** y el aumento de ciberataques mantienen una alta demanda, especialmente en bancos, seguros y fintech.                     |
+
+> **Tendencia clave:** Las empresas prefieren perfiles **híbridos**: un DevOps/SRE que también entienda de **seguridad automatizada** → **DevSecOps** gana ventaja.
+
+---
+
+## **2. Salarios promedio globales (2025)**
+
+*(Valores anuales estimados en dólares USD, promedios globales — USA, Europa y LATAM consolidados)*
+
+| **Rol**                       | **EE.UU.** 🇺🇸     | **Europa** 🇪🇺 | **Latam** 🌎  | **Global** 🌍       |
+| ----------------------------- | ------------------- | --------------- | ------------- | ------------------- |
+| **DevSecOps** 🛠️             | **\$140k – \$180k** | \$90k – \$130k  | \$40k – \$75k | **\$125k** promedio |
+| **Ingeniero en Seguridad** 🔐 | \$120k – \$160k     | \$80k – \$120k  | \$35k – \$65k | \~\$110k promedio   |
+
+> **Conclusión salarial:**
+
+* DevSecOps gana en **EE.UU., Europa y LATAM**.
+* Un **DevSecOps senior** puede llegar fácilmente a **\$200k+** en EE.UU.
+* Ingenieros de seguridad pueden acercarse a esos rangos, pero suelen necesitar certificaciones top (**CISSP, OSCP, CISM**).
+
+---
+
+## **3. Tendencias del mercado**
+
+Según **Gartner 2025** y reportes de **LinkedIn**:
+
+* **Top 3 roles más buscados** en ciberseguridad:
+
+  1. **DevSecOps Engineer** 🚀
+  2. Cloud Security Engineer
+  3. Security Automation Engineer
+* Los **Ingenieros en Seguridad de la Información** siguen siendo clave, pero muchas funciones tradicionales están siendo reemplazadas por **automatización** y **herramientas SIEM/SOAR**.
+
+---
+
+## **4. Ventaja estratégica para ti**
+
+Como ya trabajas con **Kubernetes, Helm, ArgoCD, CI/CD, AWS, GCP**:
+
+* Migrar hacia **DevSecOps** es **natural** y te posiciona en un mercado **más demandado y mejor pagado**.
+* Además, al dominar DevSecOps, puedes evolucionar después hacia un rol de **CISO** combinando **automatización** + **gestión de riesgos**.
+
+---
+
+## **5. Mi recomendación**
+
+Si buscas **alta empleabilidad** + **mejor salario** + **alineación con tu experiencia actual**, elige **DevSecOps**.
+
+Para maximizar ingresos:
+
+* Aprende **automatización de seguridad** en pipelines.
+* Profundiza en **Kubernetes Security, Cloud Security y Zero Trust**.
+* Complementa con **certificaciones de seguridad cloud**:
+
+  * **AWS Certified Security**
+  * **CKS** (Certified Kubernetes Security Specialist)
+  * **GIAC Cloud Security Automation**
+
+---
+
   
 ## Contribuciones
 
