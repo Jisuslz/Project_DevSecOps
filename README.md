@@ -196,7 +196,7 @@ sudo dpkg -i minikube_latest_amd64.deb
 ```
 minikube start --driver=docker
 ```
-![alt text](/robustness/Pasted image 20250406205429.png)
+![alt text](/robustness/)
 ![alt text](/robustness/Pasted image 20250406205357.png)
 
 
