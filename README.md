@@ -97,8 +97,7 @@ A continuación, se desglosa el flujo adecuado que tiene el diagrama (_Figura 1_
 - **Precommit checks**: Antes de que los cambios puedan ser aceptados, se ejecutan **precommit checks** (verificación automática del código) para asegurar que no haya errores evidentes y que el código cumpla con los estándares establecidos.
 
 
-
-![[Pasted image 20241117164309.png]]
+![alt text](/robustness/Pasted image 20241117164309.png)
 <figcaption style="text-transform: uppercase; font-weight: bold;">
     _Figura 2. Inicio del flujo _
 </figcaption>
@@ -118,8 +117,7 @@ A continuación, se desglosa el flujo adecuado que tiene el diagrama (_Figura 1_
     - **Pruebas Finales**: Se ejecutan pruebas finales antes del despliegue, que incluyen pruebas adicionales de funcionalidad, seguridad, etc.
     
     - **Análisis de Calidad de Código (SonarQube)**: La calidad del código es analizada utilizando SonarQube, lo que asegura que el código cumple con ciertos estándares de calidad y seguridad.
-
-![[Pasted image 20241117164413.png]]
+![alt text](/robustness/Pasted image 20241117164413.png)
 <figcaption style="text-transform: uppercase; font-weight: bold;">
     _Figura 3. CI/CD _
 </figcaption>
@@ -143,7 +141,7 @@ A continuación, se desglosa el flujo adecuado que tiene el diagrama (_Figura 1_
         
     - **Producción**: Finalmente, después de las validaciones en los entornos anteriores, la aplicación se despliega en producción.
 
-![[Pasted image 20241117164509.png]]
+![alt text](/robustness/Pasted image 20241117164509.png)
 <figcaption style="text-transform: uppercase; font-weight: bold;">
     _Figura 4. Despliegue continuo _
 </figcaption>
@@ -161,7 +159,7 @@ A continuación, se desglosa el flujo adecuado que tiene el diagrama (_Figura 1_
     
 - **Balanceo de Carga (Load Balancer)**: Un balanceador de carga distribuye el tráfico de los usuarios entre las diferentes versiones de la aplicación (por ejemplo, versión 1.0 y versión 1.1), lo que es ideal para estrategias como **blue/green deployments** (despliegue alternado de versiones) o **canary releases** (despliegue progresivo de una nueva versión).
 
-![[Pasted image 20241117164545.png]]
+![alt text](/robustness/Pasted image 20241117164545.png)
 <figcaption style="text-transform: uppercase; font-weight: bold;">
     _Figura 5. Monitoreo y validación _
 </figcaption>
@@ -172,7 +170,7 @@ A continuación, se desglosa el flujo adecuado que tiene el diagrama (_Figura 1_
     
 - **Versiones Controladas**: Dependiendo de la configuración del balanceador, los usuarios pueden ser dirigidos a diferentes versiones de la aplicación, permitiendo probar nuevas versiones con una porción del tráfico antes de hacer un despliegue completo.
 
-![[Pasted image 20241117164624.png]]
+![alt text](/robustness/Pasted image 20241117164624.png)
 <figcaption style="text-transform: uppercase; font-weight: bold;">
     _Figura 6. Flujo de acceso a la aplicación_
 </figcaption>
@@ -198,9 +196,9 @@ sudo dpkg -i minikube_latest_amd64.deb
 ```
 minikube start --driver=docker
 ```
+![alt text](/robustness/Pasted image 20250406205429.png)
+![alt text](/robustness/Pasted image 20250406205357.png)
 
-![[Pasted image 20250406205429.png]]
-![[Pasted image 20250406205357.png]]
 
 
 # Install ArgoCD
@@ -231,7 +229,8 @@ kubectl get svc -n argocd
 minikube service argocd-server --url -n argocd
 ```
 
-![[Pasted image 20241001210434.png]]
+![alt text](/robustness/Pasted image 20241001210434.png)
+
 ## Obtención del password de admin de ArgoCD
 
 Para obtener el password del usuario admin por defecto tenemos dos opciones:
@@ -249,10 +248,12 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 ```
 
 Primera Opcion para saber la clave
-![[Pasted image 20241001210911.png]]
+![alt text](/robustness/Pasted image 20241001210911.png)
+
 
 Segunda opcion para saber la clave
-![[Pasted image 20241001211032.png]]
+![alt text](/robustness/Pasted image 20241001211032.png)
+
 
 Con este password ya podemos loguearnos:
 
@@ -371,13 +372,14 @@ minikube config view
 ```
 
 ---
-
-![[Pasted image 20241002204411.png]]
-
-![[Pasted image 20241002204418.png]]
+![alt text](/robustness/Pasted image 20241002204411.png)
 
 
-![[Pasted image 20241002204425.png]]
+![alt text](/robustness/Pasted image 20241002204418.png)
+
+
+![alt text](/robustness/Pasted image 20241002204425.png)
+
 
 ---
 
@@ -479,23 +481,27 @@ Una vez que el análisis se complete, podrás ver los resultados del escaneo en 
 - Código duplicado.
 
 # **screenshot**
+![alt text](/robustness/Pasted image 20241117151712.png)
 
-![[Pasted image 20241117151712.png]]
+![alt text](/robustness/Pasted image 20241117151937.png)
 
-![[Pasted image 20241117151937.png]]
+![alt text](/robustness/Pasted image 20241117152202.png)
 
-![[Pasted image 20241117152202.png]]
-![[Pasted image 20241117153327.png]]
-![[Pasted image 20241117152625.png]]
+![alt text](/robustness/Pasted image 20241117153327.png)
 
-![[Pasted image 20241117153133.png]]
-![[Pasted image 20241117153432.png]]
+![alt text](/robustness/Pasted image 20241117152625.png)
 
-![[Pasted image 20241117154158.png]]
 
-![[Pasted image 20241117154213.png]]
+![alt text](/robustness/Pasted image 20241117153133.png)
 
-![[Pasted image 20241117154231.png]]
+![alt text](/robustness/Pasted image 20241117153432.png)
+
+![alt text](/robustness/Pasted image 20241117154158.png)
+
+![alt text](/robustness/Pasted image 20241117154213.png)
+
+![alt text](/robustness/Pasted image 20241117154231.png)
+
 
 El **análisis estático** y el **análisis dinámico** son dos enfoques complementarios para evaluar la calidad y seguridad del código de una aplicación.
 
@@ -658,8 +664,8 @@ SonarQube, por sí solo, no realiza análisis dinámico directamente, pero puede
 1Q2w3e4r5t'; DROP TABLE usuario;-- //Ejemplo en input de password podemos colocar esto para probar
 
 ```
+![alt text](/robustness/Pasted image 20250507222440.png)
 
-![[Pasted image 20250507222440.png]]
 
 ```
 En este ajuste, he cambiado los marcadores de posición de la consulta preparada de ? a :nombre, :documento, :usuario, :contraseñaCifrada, y :salt. Luego, he utilizado el método bindParam para vincular las variables correspondientes a estos marcadores de posición. Esto hace que el código sea más seguro y menos susceptible a ataques de inyección SQL.
@@ -948,52 +954,27 @@ trivy image -f json -o reporte.json <nombre_imagen>:<tag>
 ### 7. **Integración con CI/CD**
 Trivy puede integrarse en pipelines de CI/CD para realizar análisis automáticos de vulnerabilidades en imágenes de Docker antes del despliegue.
 
+![alt text](/robustness/Pasted image 20241117160611.png)
 
-![[Pasted image 20241117160611.png]]
-![[Pasted image 20241117160653.png]]
+![alt text](/robustness/Pasted image 20241117160653.png)
 
 # Firewall - Opsense
 
 Para administrar vlan desde fw se asignaron varias interfaces de red en el vcenter.
 
+![alt text](/robustness/Pasted image 20241103181922.png)
 
-![[Pasted image 20241103181922.png]]
+
+![alt text](/robustness/Pasted image 20241103180502.png)
 
 
-![[Pasted image 20241103180502.png]]
+![alt text](/robustness/Pasted image 20241103180600.png)
 
-![[Pasted image 20241103180600.png]]
+![alt text](/robustness/Pasted image 20241103180629.png)
 
-![[Pasted image 20241103180629.png]]
 
 La segmentación y subneting se configura desde el fw e igual que las políticas de entrada y salida de los laboratorios, con sus respectivos rangos por cada segmentación.
-
-![[Pasted image 20241103180934.png]]
-
-**Referencias bibliográficas**
-
-  - Ilimit. (2020). Arquitecturas monolíticas o arquitectura de microservicios: Ventajas e inconvenientes. Ilimit. [https://ilimit.com/blog/arquitecturas-monoliticas-o-arquitectura-de-microservicios-ventajas-e-inconvenientes/](https://ilimit.com/blog/arquitecturas-monoliticas-o-arquitectura-de-microservicios-ventajas-e-inconvenientes/)
-
-- AppMaster. (2023). Migrar de una arquitectura monolítica a una de microservicios. AppMaster. [https://appmaster.io/es/blog/migrar-de-una-arquitectura-monolitica-a-una-de-microservicios](https://appmaster.io/es/blog/migrar-de-una-arquitectura-monolitica-a-una-de-microservicios)
-
-- Desconocido. (s.f.). GitOps Pipeline [Imagen]. Medium. [https://miro.medium.com/v2/resize:fit:2000/1*JXEVSiR7kCzP2vwXVXFQ9w.png](https://miro.medium.com/v2/resize:fit:2000/1*JXEVSiR7kCzP2vwXVXFQ9w.png)
-
-- OpenAI. (2023). ChatGPT (Marzo 14 versión) [Modelo de lenguaje grande]. [https://chat.openai.com/](https://chat.openai.com/)
-
-  
-  
-
-## Contribuciones
-
-Las contribuciones son bienvenidas. Por favor, sigue las normas de contribución descritas en `CONTRIBUTING.md`.
-
-## Licencia
-
-Este proyecto está bajo la licencia [MIT](LICENSE).
-
----
-
-Para más detalles sobre la configuración y uso, consulta la [documentación oficial](https://argoproj.github.io/argo-cd/).
+![alt text](/robustness/Pasted image 20241103180934.png)
 
 
 
@@ -1079,9 +1060,27 @@ Para maximizar ingresos:
   * **GIAC Cloud Security Automation**
 
 ---
+**Referencias bibliográficas**
 
-  
+  - Ilimit. (2020). Arquitecturas monolíticas o arquitectura de microservicios: Ventajas e inconvenientes. Ilimit. [https://ilimit.com/blog/arquitecturas-monoliticas-o-arquitectura-de-microservicios-ventajas-e-inconvenientes/](https://ilimit.com/blog/arquitecturas-monoliticas-o-arquitectura-de-microservicios-ventajas-e-inconvenientes/)
+
+- AppMaster. (2023). Migrar de una arquitectura monolítica a una de microservicios. AppMaster. [https://appmaster.io/es/blog/migrar-de-una-arquitectura-monolitica-a-una-de-microservicios](https://appmaster.io/es/blog/migrar-de-una-arquitectura-monolitica-a-una-de-microservicios)
+
+- Desconocido. (s.f.). GitOps Pipeline [Imagen]. Medium. [https://miro.medium.com/v2/resize:fit:2000/1*JXEVSiR7kCzP2vwXVXFQ9w.png](https://miro.medium.com/v2/resize:fit:2000/1*JXEVSiR7kCzP2vwXVXFQ9w.png)
+
+- OpenAI. (2023). ChatGPT (Marzo 14 versión) [Modelo de lenguaje grande]. [https://chat.openai.com/](https://chat.openai.com/)
+---
 ## Contribuciones
+
+Las contribuciones son bienvenidas. Por favor, sigue las normas de contribución descritas en `CONTRIBUTING.md`.
+
+## Licencia
+
+Este proyecto está bajo la licencia [MIT](LICENSE).
+
+---
+
+Para más detalles sobre la configuración y uso, consulta la [documentación oficial](https://argoproj.github.io/argo-cd/).
 
 Se sigue un flujo de trabajo basado en Git para todas las contribuciones. Los cambios deben ser propuestos mediante Pull Requests, los cuales deben pasar por todos los controles automáticos antes de ser fusionados en la rama principal.
 
