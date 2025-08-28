@@ -1,7 +1,7 @@
 # Project_DevSecOps
 - Ingeniería en Seguridad de la Información 
 - © 2025
-- 
+
 # Microservicios y DevSecOps superando las limitaciones de las Arquitecturas Monolíticas 
 ---
 
