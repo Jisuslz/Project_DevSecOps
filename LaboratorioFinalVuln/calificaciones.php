@@ -26,9 +26,9 @@
         if(isset($_GET["codigo_estudiante"])){
             $codigo_estudiante = $_GET["codigo_estudiante"];
 
-            // Ejecutar consulta sin preparar (vulnerable a inyección SQL)
-            $consultaSQL = "SELECT * FROM notas WHERE estudiante_codigo = '$codigo_estudiante'";
-            $consultaSQL = $conn->query($consultaSQL);
+            // Ejecutar consulta usando prepared statements
+            $stmt = $conn->prepare("SELECT * FROM notas WHERE estudiante_codigo = ?");
+            $stmt->execute([$codigo_estudiante]);
     ?>
     <h2>Historial de Notas</h2>
     <table border="1">
@@ -40,7 +40,7 @@
         </tr>
         <?php
         // Mostrar los resultados de la consulta en forma de tabla
-        while ($row = $consultaSQL->fetch(PDO::FETCH_ASSOC)){
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
         ?>
         <tr>
             <td><?php echo $row["asignatura"]; ?></td>
